@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
 import ItemMovies from "../../Components/ItemMovies";
-import Spinner from "../../Components/Spinner/Spinner";
 import {
-  SET_LOADING_OFF,
-  SET_LOADING_ON,
-} from "../../redux/constants/constantSpinner";
+  setLoadingOffAction,
+  setLoadingOnAction,
+} from "../../redux/action/actionSpinner";
+
 import { moviesServ } from "../../services/movieService";
 import TabMovie from "./TabMovie";
 
@@ -15,23 +16,18 @@ export default function HomePage() {
   let dispacth = useDispatch();
 
   useEffect(() => {
-    dispacth({
-      type: SET_LOADING_ON,
-    });
+    dispacth(setLoadingOnAction());
     moviesServ
       .getListMovie()
       .then((res) => {
         // console.log(res.data.content);
-        dispacth({
-          type: SET_LOADING_OFF,
-        });
+
         setMovies(res.data.content);
+        dispacth(setLoadingOffAction());
       })
       .catch((err) => {
         console.log(err);
-        dispacth({
-          type: SET_LOADING_OFF,
-        });
+        dispacth(setLoadingOffAction());
       });
   }, []);
   let renderMovies = () => {

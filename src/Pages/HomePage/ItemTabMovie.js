@@ -5,9 +5,9 @@ export default function ItemTabMovie({ data }) {
   return (
     <div className="p-3 flex">
       <img className="w-28 object-contain" src={data.hinhAnh} />
-      <div className="mx-2">
+      <div className="mx-5">
         <p>{data.tenPhim}</p>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-4 gap-5">
           {data.lstLichChieuTheoPhim.slice(0, 9).map((item) => {
             return (
               <div className="p-3 rounded bg-red-600 text-white text-center">

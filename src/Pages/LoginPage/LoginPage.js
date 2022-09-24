@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { SET_USER } from "../../redux/constants/constantUser";
 import Lottie from "lottie-react";
 import bg_movie_loading from "../../assets/bg-movie-loading.json";
+import { setUserLoginActionServ } from "../../redux/action/actionUser";
 
 export default function LoginPage() {
   let navigate = useNavigate();
@@ -14,28 +15,38 @@ export default function LoginPage() {
   let dispatch = useDispatch();
   const onFinish = (values) => {
     console.log("Success:", values);
-    userServ
-      .postLogin(values)
-      .then((res) => {
-        // console.log(res);
-        localService.user.set(res.data.content); // luu vao localStorge
-
-        //dispatch to state
-        dispatch({
-          type: SET_USER,
-          payload: res.data.content,
-        });
-        //thong bao dang nhap thnah cong
-        message.success("Dang nhap thanh cong");
-        setTimeout(() => {
-          //chuyen huong toi trang chu
-          navigate("/");
-        }, 2000);
-      })
-      .catch((err) => {
-        message("Dang nhap that bai");
-        // console.log(err);
-      });
+    // userServ
+    //   .postLogin(values)
+    //   .then((res) => {
+    //     // // console.log(res);
+    //     // localService.user.set(res.data.content); // luu vao localStorge
+    //     // //dispatch to state
+    //     // dispatch({
+    //     //   type: SET_USER,
+    //     //   payload: res.data.content,
+    //     // });
+    //     // //thong bao dang nhap thnah cong
+    //     // message.success("Dang nhap thanh cong");
+    //     // setTimeout(() => {
+    //     //   //chuyen huong toi trang chu
+    //     //   navigate("/");
+    //     // }, 2000);
+    //   })
+    //   .catch((err) => {
+    //     message("Dang nhap that bai");
+    //     // console.log(err);
+    //   });
+    let onSuccess = () => {
+      message.success("Dang nhap thanh cong");
+      setTimeout(() => {
+        //chuyen huong toi trang chu
+        navigate("/");
+      }, 2000);
+    };
+    let onFail = () => {
+      message("Dang nhap that bai");
+    };
+    dispatch(setUserLoginActionServ(values, onSuccess, onFail));
   };
 
   const onFinishFailed = (errorInfo) => {
